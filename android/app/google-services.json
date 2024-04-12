@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "85925713100",
+    "project_id": "opportune-d9f55",
+    "storage_bucket": "opportune-d9f55.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:85925713100:android:1d798af3755a6b24335e69",
+        "android_client_info": {
+          "package_name": "com.example.opportune"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "85925713100-hdg7k547ajln82ncms916s5gresu4eg8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCO-_VpkQlnfJ8KWBLE-qCAr4ttjuL-C88"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "85925713100-hdg7k547ajln82ncms916s5gresu4eg8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "85925713100-7q1skamboeubrq8l40akqi4ksboecrsr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.opportune.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:85925713100:android:97d5a521d50c1347335e69",
+        "android_client_info": {
+          "package_name": "com.example.stock_management"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "85925713100-hdg7k547ajln82ncms916s5gresu4eg8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCO-_VpkQlnfJ8KWBLE-qCAr4ttjuL-C88"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "85925713100-hdg7k547ajln82ncms916s5gresu4eg8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "85925713100-7q1skamboeubrq8l40akqi4ksboecrsr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.opportune.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
