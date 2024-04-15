@@ -1,7 +1,9 @@
+import 'package:dropdownfield2/dropdownfield2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:stock_management/widgets/app_bar.dart';
+import 'package:stock_management/models/customer.dart';
+import 'package:stock_management/models/product.dart';
+
 
 class SaleItem extends StatefulWidget {
   const SaleItem({super.key});
@@ -14,43 +16,55 @@ class _SaleItemState extends State<SaleItem> {
 
   String _selectedItem = '';
   String _selectedCustomer = '';
+  late List<Product> products = []; 
+  late List<Customer> customers = []; 
 
-  final List<Map<String, String>> items = [
-    {'value': '1', 'displayedText': 'Item1'},
-    {'value': '2', 'displayedText': 'Item2'},
-    {'value': '3', 'displayedText': 'Item3'},
-  ];
+  List<String> productList = [];
+  List<String> customerList = [];
 
-  final List<Map<String, String>> customers = [
-    {'value': '1', 'displayedText': 'Customer1'},
-    {'value': '2', 'displayedText': 'Customer2'},
-    {'value': '3', 'displayedText': 'Customer3'},
-  ];
+
+  @override
+  void initState() {
+    super.initState();
+    refresh();
+  }
+
+  void refresh(){
+    ProductService.getProducts().then((elements) {
+      setState(() {
+        products = elements;
+        products.sort((a, b) => a.name.compareTo(b.name));
+      });
+    });
+    productList = products.map((product) => product.name).toList();
+    CustomerService.getCustomers().then((elements) {
+      setState(() {
+        customers = elements;
+        customers.sort((a, b) => a.name.compareTo(b.name));
+      });
+    });
+    customerList = customers.map((customer) => customer.name).toList();
+    print(productList); // print empty for now
+    print(products); // print empty for now
+  }
 
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
       appBar: _appBar(title: 'Select Item'),
       body: Column(children: [
-        SizedBox(
-          width: double.infinity,
-          child: DropdownButton(
-                value: _selectedItem,
-                items: [
-                  const DropdownMenuItem(value: '', child: Text('Select Items')),
-                  for(Map<String, String> item in items)
-                    DropdownMenuItem(
-                      value: item['value'], 
-                      child: Text(item['displayedText']!),
-                    )
-                ],
-                onChanged: (value){
-                  setState(() {
-                    _selectedItem = value!;
-                  });
-                },
-              ),
-        ),
+        DropDownField(
+        value: _selectedItem,
+        required: true,
+        strict: true,
+        labelText: 'Select item *',
+        icon: const Icon(Icons.sell_outlined),
+        items: productList,
+        setter: (dynamic newValue) {
+            _selectedCustomer = newValue;
+        }
+    ),
+        
         const SizedBox(height: 15,),
         Center(
         child: DataTable(
@@ -110,6 +124,10 @@ class _SaleItemState extends State<SaleItem> {
         Text('2.000'),   
       ],),
 
+      
+
+    
+
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -128,24 +146,21 @@ class _SaleItemState extends State<SaleItem> {
   PreferredSizeWidget _appBar({required String title}){
     return AppBar(
       title: Row(
-        children: [
-          Expanded(child: Text(title)),
-          DropdownButton(
+        children:  [
+          SizedBox(width: 100, child: Text(title)),
+          Expanded(
+            child: DropDownField(
               value: _selectedCustomer,
-              items: [
-                DropdownMenuItem(value: '', child: Text(title)),
-                for(Map<String, String> item in customers)
-                  DropdownMenuItem(
-                    value: item['value'], 
-                    child: Text(item['displayedText']!),
-                  )
-              ],
-              onChanged: (value){
-                setState(() {
-                  _selectedCustomer = value!;
-                });
-              },
-            )
+              required: true,
+              strict: true,
+              labelText: 'Select customer *',
+              icon: const Icon(Icons.sell_outlined),
+              items: customerList,
+              setter: (dynamic newValue) {
+                  _selectedCustomer = newValue;
+              }
+                    ),
+          ),
         ]
       )
     );

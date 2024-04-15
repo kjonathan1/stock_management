@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:stock_management/models/customer.dart';
 import 'package:stock_management/pages/customer.dart';
 import 'package:stock_management/pages/inventory.dart';
 import 'package:stock_management/pages/product.dart';
@@ -15,27 +14,15 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   //customers
-  late List<Customer> customers; // CustomerService.getCustomers() as List<Customer>;
+  // late List<Customer> customers; // CustomerService.getCustomers() as List<Customer>;
 
   int currentIndex = 0;
-  List<Widget> pages =  [
-    const Sale(),
-    const Inventory(),
-    const Product(),
-    const CustomerListWidget(customers: [],),
+  List<Widget> pages = const [
+     Sale(),
+     Inventory(),
+     ProductListWidget(),
+     CustomerListWidget(),
   ];
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    CustomerService.getCustomers().then((elements) {
-      setState(() {
-        customers = elements;
-        pages[3] = CustomerListWidget(customers: customers);
-      });
-    });
-  }
 
   @override
   Widget build(BuildContext context) {

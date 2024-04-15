@@ -1,0 +1,1 @@
+ /home/jonathan/flutter/stock_management/.dart_tool/flutter_build/0a9a20664ce88be7aac91cf75b231d87/native_assets.yaml: 
