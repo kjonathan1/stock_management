@@ -18,7 +18,7 @@ class _HomePageState extends State<HomePage> {
 
   int currentIndex = 0;
   List<Widget> pages = const [
-     Sale(),
+     SaleWidget(),
      Inventory(),
      ProductListWidget(),
      CustomerListWidget(),

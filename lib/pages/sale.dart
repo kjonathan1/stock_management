@@ -1,18 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:stock_management/models/customer.dart';
+import 'package:stock_management/models/sale.dart';
 import 'package:stock_management/widgets/app_bar.dart';
 import 'package:stock_management/pages/sale_items.dart';
 // import 'package:stock_management/widgets/bottom_navigation_bar.dart';
 
-class Sale extends StatefulWidget {
-  const Sale({super.key});
+class SaleWidget extends StatefulWidget {
+  const SaleWidget({super.key});
 
   @override
-  State<Sale> createState() => _SaleState();
+  State<SaleWidget> createState() => _SaleWidgetState();
 }
 
-class _SaleState extends State<Sale> {
+class _SaleWidgetState extends State<SaleWidget> {
 
+  late List<Sale> sales = [];
+  //late List<Customer> customers = []; 
   String _selectedSatus = 'all';
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    SaleService.getSales().then((value) {
+      setState(() {
+        sales = value;
+      });
+    });
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -21,46 +40,46 @@ class _SaleState extends State<Sale> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
 
-        Center(
-          child: DataTable(
-            columns: const[
-              DataColumn(label: Text('Ref')),
-              DataColumn(label: Text('Customer')),
-              DataColumn(label: Text('Amount')),
-              DataColumn(label: Text('Status')),
-            ],
-            rows: const [
-              DataRow(cells: [
-                DataCell(Text('001')),
-                DataCell(Text('David')),
-                DataCell(Text('2.300')),
-                DataCell(Text('Done')),
-              ]),
-              DataRow(cells: [
-                DataCell(Text('002')),
-                DataCell(Text('Alice')),
-                DataCell(Text('6.300')),
-                DataCell(Text('Done')),
-              ]),
-              DataRow(cells: [
-                DataCell(Text('003')),
-                DataCell(Text('Mary')),
-                DataCell(Text('3.300')),
-                DataCell(Text('Draft')),
-              ]),
-            ],
-          ),
-        ),
+        Expanded(
+                    child: SingleChildScrollView(
+                    
+                      child: DataTable(
+                        columns: const [
+                          DataColumn(label: Text('Ref')),
+                          DataColumn(label: Text('Date')),
+                          DataColumn(label: Text('Customer')),
+                          DataColumn(label: Text('Amount')),
+                          DataColumn(label: Text('Payment')),
+                          DataColumn(label: Text('Actions')),
+                        ],
+                        rows: [
+                          for(int i = 0; i < sales.length; i++)
+                            buildDataTow(sales[i])
+                          // DataRow(cells: [
+                          //   const DataCell(Text('001')),
+                          //   const DataCell(Text('Product 1')),
+                          //   const DataCell(Text('5')),
+                          //   const DataCell(Text('2.300')),
+                          //   DataCell(Row(children: [
+                          //     incDecItem(),
+                          //     IconButton(onPressed: (){}, icon: const Icon(Icons.delete))
+                          //   ],)),
+                          // ]),
+                        ],
+                      ),
+                    ),
+                  ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-        const Text('Status'),
+        const Text('Payment method'),
         DropdownButton(
           value: _selectedSatus,
                 items: const [
                   DropdownMenuItem(value: 'all', child: Text('All')),
-                  DropdownMenuItem(value: 'paid', child: Text('Paid')),
-                  DropdownMenuItem(value: 'pending', child: Text('Pending')),
+                  DropdownMenuItem(value: 'cash', child: Text('Cash')),
+                  DropdownMenuItem(value: 'transfert', child: Text('Transfert')),
+                  DropdownMenuItem(value: 'card', child: Text('Credit card')),
                 ],
                 onChanged: (value){
                   setState(() {
@@ -84,4 +103,20 @@ class _SaleState extends State<Sale> {
       ),
     );
   }
+
+  DataRow buildDataTow(Sale itemData) {
+
+    String formattedDateTime = DateFormat('yyyy-MM-dd HH:mm:ss').format(itemData.date!);
+    // String formattedDateTime = itemData.date!.toDate().toString();
+    //Customer customer = customers.firstWhere((element) => element.id == itemData.customerName,);
+    return DataRow(cells: [
+      DataCell(Text(itemData.reference)),
+      DataCell(Text(formattedDateTime)),
+      DataCell(Text(itemData.customerName)),
+      DataCell(Text(itemData.totalDue.toString())),
+      DataCell(Text(itemData.paymentMethode)),
+      DataCell(IconButton(onPressed: () {}, icon: const Icon(Icons.print))),
+    ]);
+  }
+
 }

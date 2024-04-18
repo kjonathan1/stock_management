@@ -6,6 +6,8 @@ import 'package:flutter/widgets.dart';
 import 'package:item_count_number_button/item_count_number_button.dart';
 import 'package:stock_management/models/customer.dart';
 import 'package:stock_management/models/product.dart';
+import 'package:stock_management/models/sale.dart';
+import 'package:uuid/uuid.dart';
 
 class SaleItem extends StatefulWidget {
   const SaleItem({super.key});
@@ -26,8 +28,10 @@ class _SaleItemState extends State<SaleItem> {
   List<String> productList = [];
   List<String> customerList = [];
 
+
   final List<Map<String, dynamic>> itemDatas = [];
   double totalDue = 0.0;
+  double discount = 0.0;
   double calclultotalDue(){
     double total= 0.0;
     for(int i=0; i<itemDatas.length; i++){
@@ -54,24 +58,7 @@ class _SaleItemState extends State<SaleItem> {
     );
   }
 
-  // void refresh(){
-  //   ProductService.getProducts().then((elements) {
-  //     setState(() {
-  //       products = elements;
-  //       products.sort((a, b) => a.name.compareTo(b.name));
-  //     });
-  //   });
-  //   productList = products.map((product) => product.name).toList();
-  //   CustomerService.getCustomers().then((elements) {
-  //     setState(() {
-  //       customers = elements;
-  //       customers.sort((a, b) => a.name.compareTo(b.name));
-  //     });
-  //   });
-  //   customerList = customers.map((customer) => customer.name).toList();
-  //   print(productList); // print empty for now
-  //   print(products); // print empty for now
-  // }
+  
 
   void refresh() async {
     products = await ProductService.getProducts();
@@ -160,33 +147,7 @@ class _SaleItemState extends State<SaleItem> {
                         ),
                       ]),
                   const SizedBox(height: 20),
-                  // DropDownField(
-                  //   value: _selectedItem,
-                  //   required: true,
-
-                  //   labelText: 'Select item *',
-                  //   icon: const Icon(Icons.sell_outlined),
-                  //   items: productList,
-                  //   setter: (dynamic newValue) {
-                  //     setState(() {
-                  //       _selectedItem = newValue;
-                  //     });
-                  //   },
-                  // ),
-                  // const SizedBox(height: 20), // Add some spacing
-                  // DropDownField(
-                  //   value: _selectedCustomer,
-                  //   required: true,
-                  //   strict: true,
-                  //   labelText: 'Select customer *',
-                  //   icon: const Icon(Icons.sell_outlined),
-                  //   items: customerList,
-                  //   setter: (dynamic newValue) {
-                  //     setState(() {
-                  //       _selectedCustomer = newValue;
-                  //     });
-                  //   },
-                  // ),
+                  
 
                   const SizedBox(
                     height: 20,
@@ -208,16 +169,7 @@ class _SaleItemState extends State<SaleItem> {
                         rows: [
                           for (int i = 0; i < itemDatas.length; i++)
                             i == itemDatas.length-1 ? buildDataTow(itemDatas[i], true) : buildDataTow(itemDatas[i], false),
-                          // DataRow(cells: [
-                          //   const DataCell(Text('001')),
-                          //   const DataCell(Text('Product 1')),
-                          //   const DataCell(Text('5')),
-                          //   const DataCell(Text('2.300')),
-                          //   DataCell(Row(children: [
-                          //     incDecItem(),
-                          //     IconButton(onPressed: (){}, icon: const Icon(Icons.delete))
-                          //   ],)),
-                          // ]),
+                         
                         ],
                       ),
                     ),
@@ -236,7 +188,22 @@ class _SaleItemState extends State<SaleItem> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  IconButton(onPressed: (){}, icon: const Text('Cash')),
+                  IconButton(
+                    onPressed: (){
+                      Customer customer = customers.firstWhere((element) => element.id == _selectedCustomer);
+                      Sale sale = Sale(
+                        reference: generateShortUniqueId(), 
+                        paymentMethode: 'chash', 
+                        totalDue: totalDue, 
+                        discount: discount, 
+                        customerName: customer.name, 
+                        saleItems: itemDatas,
+                      );
+                      SaleService().addSale(sale);
+                      Navigator.of(context).pop();
+                    }, 
+                    icon: const Text('Cash')
+                  ),
                   IconButton(onPressed: (){}, icon: const Text('Transfert')),
                   IconButton(onPressed: (){}, icon: const Text('Credit card')),
                   const Text('Total Due'), 
@@ -255,19 +222,6 @@ class _SaleItemState extends State<SaleItem> {
   PreferredSizeWidget _appBar({required String title}) {
     return AppBar(
       title: Text(title),
-    );
-  }
-
-  Widget incDecItem() {
-    return ItemCount(
-      initialValue: 0,
-      minValue: 0,
-      maxValue: 10,
-      decimalPlaces: 0,
-      onChanged: (value) {
-        // Handle counter value changes
-        print('Selected value: $value');
-      },
     );
   }
 
@@ -309,6 +263,15 @@ class _SaleItemState extends State<SaleItem> {
       DataCell(Text(itemData['productPrice'].toString())),
       DataCell(Text(itemData['productAmount'].toString())),
       DataCell(IconButton(onPressed: () {}, icon: const Icon(Icons.delete))),
+      //drag from left to right to delete
+      //double tap to edit
+      //tap to see detais 
     ]);
   }
+
+  String generateShortUniqueId() {
+  var uuid = Uuid();
+  return uuid.v4().substring(0, 8); // Generates a short unique identifier of length 8
+}
+
 }
