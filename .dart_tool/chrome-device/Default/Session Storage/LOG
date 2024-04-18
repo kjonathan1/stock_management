@@ -1,4 +1,4 @@
-2024/04/15-20:52:13.850 3 Reusing MANIFEST /tmp/flutter_tools.ZPIPRU/flutter_tools_chrome_device.JVREKU/Default/Session Storage/MANIFEST-000001
-2024/04/15-20:52:13.853 3 Recovering log #3
-2024/04/15-20:52:13.853 3 (ignoring error) /tmp/flutter_tools.ZPIPRU/flutter_tools_chrome_device.JVREKU/Default/Session Storage/000003.log: dropping 1599 bytes; Corruption: checksum mismatch
-2024/04/15-20:52:13.854 3 Reusing old log /tmp/flutter_tools.ZPIPRU/flutter_tools_chrome_device.JVREKU/Default/Session Storage/000003.log 
+2024/04/17-23:26:31.459 3 Reusing MANIFEST /tmp/flutter_tools.IYAEQO/flutter_tools_chrome_device.KVJAFZ/Default/Session Storage/MANIFEST-000001
+2024/04/17-23:26:31.461 3 Recovering log #3
+2024/04/17-23:26:31.461 3 (ignoring error) /tmp/flutter_tools.IYAEQO/flutter_tools_chrome_device.KVJAFZ/Default/Session Storage/000003.log: dropping 3229 bytes; Corruption: checksum mismatch
+2024/04/17-23:26:31.462 3 Reusing old log /tmp/flutter_tools.IYAEQO/flutter_tools_chrome_device.KVJAFZ/Default/Session Storage/000003.log 

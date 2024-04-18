@@ -39,6 +39,8 @@ dependencies:
   firebase_core: ^2.29.0
   cloud_firestore: ^4.16.1
   dropdownfield2: ^1.0.7
+  provider: ^6.1.2
+  item_count_number_button: ^1.9.2
 
 dev_dependencies:
   flutter_test:

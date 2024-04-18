@@ -3,15 +3,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Product {
   String id;
   String name;
+  double price;
   double? quantity;
   String? documentId;
 
-  Product({required this.id, required this.name,  this.quantity, this.documentId});
+  Product({required this.id, required this.name, required this.price ,this.quantity, this.documentId});
 
   Map<String, dynamic> toMap() {
     return {
       'id': id,
       'name': name,
+      'price': price,
       'quantity': quantity,
       'documentId': documentId,
     };
@@ -25,6 +27,7 @@ class Product {
     return Product(
       id: data['id'] ?? '', // Provide default value if data['id'] is null
       name: data['name'] ?? '', // Provide default value if data['name'] is null
+      price: data['price'] ?? 0,
       quantity: data['quantity'] ?? 0, // Provide default value if data['phone'] is null
       documentId: id,
     );
@@ -73,7 +76,7 @@ class ProductService {
       final db = FirebaseFirestore.instance;
       await db.collection('products').doc(product.documentId).update({
         'name': product.name,
-        // 'phone': product.quantity,
+        'price': product.price,
         // Add other fields as needed
       });
       print('Product updated successfully');

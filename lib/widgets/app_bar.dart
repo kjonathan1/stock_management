@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:stock_management/provider/theme_provider.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String appBarTitle;
@@ -16,8 +18,11 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
               IconButton(
                   onPressed: () {}, icon: const Icon(Icons.search_outlined)),
               IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.mode_night_outlined)),
+                  onPressed: () {
+                    Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
+                  },
+                  icon: Provider.of<ThemeProvider>(context).themeIcon),
+                  
               IconButton(
                   onPressed: () {}, icon: const Icon(Icons.person_2_outlined)),
             ],
@@ -29,5 +34,5 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   
   @override
   // TODO: implement preferredSize
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }

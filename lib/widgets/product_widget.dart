@@ -18,7 +18,7 @@ class ProductWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: CircleAvatar(child: Text("${index+1}")),
-      title: Text(product.name),
+      title: Text("${product.name} - ${product.price} \$"),
       subtitle: Text(product.quantity.toString()),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,

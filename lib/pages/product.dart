@@ -74,6 +74,7 @@ class _ProductListWidgetState extends State<ProductListWidget> {
                   context: context,
                   builder: (BuildContext context) {
                     TextEditingController nameController = TextEditingController(text: product.name);
+                    TextEditingController priceController = TextEditingController(text: '0');
                     
                     return AlertDialog(
                       title: const Text('Edit Product'),
@@ -84,6 +85,15 @@ class _ProductListWidgetState extends State<ProductListWidget> {
                             controller: nameController,
                             // initialValue: product.name,
                             decoration: const InputDecoration(labelText: 'Name'),
+                            onChanged: (value) {
+                              // Update name
+                              // nameController.text = value;
+                            },
+                          ),
+                          TextFormField(
+                            controller: priceController,
+                            // initialValue: product.name,
+                            decoration: const InputDecoration(labelText: 'Price'),
                             onChanged: (value) {
                               // Update name
                               // nameController.text = value;
@@ -107,6 +117,7 @@ class _ProductListWidgetState extends State<ProductListWidget> {
                               Product(
                                 id: product.id,
                                 name: nameController.text,
+                                price: double.parse(priceController.text),
                                 documentId: product.documentId,
                               ),
                             );
@@ -138,6 +149,7 @@ class _ProductListWidgetState extends State<ProductListWidget> {
             context: context,
             builder: (BuildContext context) {
               TextEditingController nameController = TextEditingController();
+              TextEditingController priceController = TextEditingController();
               
               return AlertDialog(
                 title: const Text('Add Product'),
@@ -147,6 +159,14 @@ class _ProductListWidgetState extends State<ProductListWidget> {
                     TextFormField(
                       controller: nameController,
                       decoration: const InputDecoration(labelText: 'Name'),
+                      onChanged: (value) {
+                        // Update name
+                        //nameController.text = value;
+                      },
+                    ),
+                    TextFormField(
+                      controller: priceController,
+                      decoration: const InputDecoration(labelText: 'Price'),
                       onChanged: (value) {
                         // Update name
                         //nameController.text = value;
@@ -167,7 +187,7 @@ class _ProductListWidgetState extends State<ProductListWidget> {
                     onPressed: () {
                       // Save product
                       String productId = FirebaseFirestore.instance.collection('products').doc().id;
-                      Product product = Product(id: productId, name: nameController.text);
+                      Product product = Product(id: productId, name: nameController.text, price: double.parse(priceController.text));
                       ProductService().addProduct(product);
                       Navigator.of(context).pop();
                       hasData = false;
